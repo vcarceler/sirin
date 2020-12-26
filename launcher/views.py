@@ -16,16 +16,27 @@ def index(request):
         response += "\nOld request: " + str(old_request)
 
         if old_request.need_update():
-            response += "\nActualizo datetime"
+            response += "\nRequest updated"
             old_request.datetime = timezone.now()
+            old_request.processed = False
             old_request.save()
         else:
-            response += "\nNo actualizo datetime"
-
+            response += "\nNo need to update request"
 
     except Request.DoesNotExist:
         # Si no existe una solicitud para este host la registramos
-        new_request = Request(address=address, datetime=timezone.now())
+        new_request = Request(address=address, datetime=timezone.now(), processed=False)
         new_request.save()
+
+    return HttpResponse(response)
+
+def hosts(request):
+
+    response = "Hosts para incluir en el playbook: "
+
+    for r in Request.objects.filter(processed=False):
+        r.processed=True
+        r.save()
+        response += r.address + ","
 
     return HttpResponse(response)

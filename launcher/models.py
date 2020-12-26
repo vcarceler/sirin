@@ -8,9 +8,10 @@ from django.utils import timezone
 class Request(models.Model):
     address = models.GenericIPAddressField()
     datetime = models.DateTimeField()
+    processed = models.BooleanField(default=False)
 
     def __str__(self):
-        return "address: " + self.address + " datetime: " + str(self.datetime)
+        return "address: " + self.address + " datetime: " + str(self.datetime) + " processed: " + str(self.processed)
 
     # Cierto si la solicitud ya ha superado EXCLUSION_PERIOD
     def need_update(self):
