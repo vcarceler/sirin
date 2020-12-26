@@ -105,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Madrid'
 
 USE_I18N = True
 
@@ -118,3 +118,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# SIRIN
+#
+
+# EXCLUSION_PERIOD (seconds)
+#
+# Sirin only register a new request for a host after this time
+# from the las request.
+#
+# Defaults to 1 day = 86400 seconds
+EXCLUSION_PERIOD = 86400
