@@ -1,2 +1,3 @@
-.git
+.git/
 *.sqlite3
+__pycache__/
