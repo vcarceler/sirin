@@ -24,7 +24,55 @@ python manage.py gethosts
 
 Cuando se ejecuta el comando `python manage.py gethosts` las solicitudes correspondientes a las direcciones devueltas pasarán a considerarse procesadas. Y no se marcarán como no procesadas hasta que no se vuelva a recibir una petición de ese equipo pasado `EXCLUSION_TIME`.
 
+# Puesta en marcha
 
+Sirin es una aplicación Django así que se utilizará Python. El ORM de Django únicamente guarda las solicitudes de los equipos (dirección, datetime) así que probablemente SQLite sea suficiente para manejar muchos equipos.
+
+Para utilizar una aplicación Django en producción conviene [seguir las recomendaciones oficiales.](https://docs.djangoproject.com/en/3.1/howto/deployment/)
+
+## Instalación
+
+a) Instalamos `python3-venv`
+
+~~~
+apt update
+apt install python3-venv
+~~~
+
+b) Creamos un directorio y un `venv`
+
+~~~
+mkdir sirin
+cd sirin
+python3 -m venv venv
+~~~
+
+c) Activamos el `venv`
+
+~~~
+source venv/bin/activate
+~~~
+
+d) Descargamos Sirin
+
+~~~
+git clone https://github.com/vcarceler/sirin.git
+~~~
+
+e) Instala los requisitos, procesa las migraciones y crea un usuario administrador
+
+~~~
+cd sirin
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py createsuperuser
+~~~
+
+f) Ejecuta el servidor
+
+~~~
+python manage.py runserver *:8000
+~~~
 
 ## Built With
 
