@@ -71,8 +71,59 @@ python manage.py createsuperuser
 f) Ejecuta el servidor
 
 ~~~
-python manage.py runserver *:8000
+python manage.py runserver 0:8000
 ~~~
+
+# Uso de Sirin
+
+Sirin está pensado para estar instalado en la misma máquina en la que se utiliza Ansible y posiblemente [ARA](https://github.com/ansible-community/ara).
+
+Los equipos controlados deberán hacer una petición a Sirin en cada arranque y una tarea periodica (crontab o timer) consultará la lista de equipos para utilizar con el parámetro `--limit` de `ansible-playbook`.
+
+## Petición de un host a Sirin
+
+Cualquier petición HTTP a `<ip>:<puerto>/launcher` hará que Sirin reciba la IP del equipo solicitante y si procede registre la petición en su base de datos.
+
+La interfaz es intencionadamente simple. Sirin extrae la IP de la petición del equipo cliente, no debe haber NAT ni ningún proxy entre el cliente y Sirin.
+
+Ejemplo: Un cliente puede registrarse en la instancia de Sirin que escucha en la IP 10.118.10.171 y en el puerto 8000 con:
+
+~~~
+wget http://10.118.10.171:8000/launcher
+~~~
+
+La repuesta de Sirin incluye la IP del cliente, en este caso:
+
+~~~
+Request from: 10.118.10.1
+~~~
+
+Si para la IP del cliente no había una solicitud previa, o la había pero procesada hace más de EXCLUSION_TIME entonces se registrará la petición del cliente en la BBDD.
+
+## Consulta de las peticiones sin procesar
+
+El comando `python manage.py listpendingrequests` permite mostrar las peticiones pendientes de procesar.
+
+En este caso:
+
+~~~
+venv) root@sirin:~/sirin/sirin# python manage.py listpendingrequests
+ID       ADDRESS                          DATETIME                        
+1        10.0.0.1                         2020-12-28 10:06:28             
+2        10.118.10.1                      2020-12-28 10:15:42.338411      
+(venv) root@sirin:~/sirin/sirin#
+~~~
+
+## Obtención de los hosts por procesar
+
+Cuando se quiera ejecutar `ansible-playbook` se podrá invocar el comando `python manage.py gethosts` para obtener la lista de las IPs pendientes de procesar.
+
+~~~
+python manage.py gethosts
+10.0.0.1,10.118.10.1,
+~~~
+
+Este comando marcará las solicitudes como procesadas y no volverán a aparecer en la lista de peticiones pendientes hasta que no sean incluídas de nuevo pasado el periodo de exclusión.
 
 ## Built With
 
