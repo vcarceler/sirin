@@ -107,7 +107,7 @@ El comando `python manage.py listpendingrequests` permite mostrar las peticiones
 En este caso:
 
 ~~~
-venv) root@sirin:~/sirin/sirin# python manage.py listpendingrequests
+(venv) root@sirin:~/sirin/sirin# python manage.py listpendingrequests
 ID       ADDRESS                          DATETIME                        
 1        10.0.0.1                         2020-12-28 10:06:28             
 2        10.118.10.1                      2020-12-28 10:15:42.338411      
