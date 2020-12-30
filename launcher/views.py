@@ -19,16 +19,13 @@ def index(request):
 
     try:
         old_request = Request.objects.get(address=address)
-        response += " Old request: " + str(old_request)
+        #response += " Old request: " + str(old_request)
 
         if old_request.need_update():
             old_request.datetime = timezone.now()
             old_request.processed = False
             old_request.label = rlabel
             old_request.save()
-            response += " Request updated."
-        else:
-            response += " No need to update request."
 
     except Request.DoesNotExist:
         # Si no existe una solicitud para este host la registramos

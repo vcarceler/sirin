@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Requests - Сирин</title>
+    <style>
+      body {
+        font-family: monospace, monospace;
+      }
+    </style> 
+  </head>
+  <body>
+    {% if request_list %}
+        <table style="width: 100%;">
+          <tr>
+            <td>ID</td>
+            <td>LABEL</td>
+            <td>ADDRESS</td>
+            <td>DATETIME</td>
+          </tr>
+            {% for request in request_list %}
+                <tr>
+                  <td>{{ request.pk }}</td>
+                  <td>{{ request.label }}</td>
+                  <td>{{ request.address }}</td>
+                  <td>{{ request.datetime }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No requests are available.</p>
+    {% endif %}
+  </body>
+</html>
