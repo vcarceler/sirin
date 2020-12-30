@@ -9,7 +9,7 @@ class Command(BaseCommand):
         
 
     def handle(self, *args, **options):
-        self.stdout.write('{0:<8s} {1:<32s} {2:<32s}'.format('ID', 'ADDRESS', 'DATETIME'))
+        self.stdout.write('{0:<8s} {1:<32s} {2:<32s} {3:<32s}'.format('ID', 'LABEL', 'ADDRESS', 'DATETIME'))
 
         for r in Request.objects.filter(processed=False):
-            self.stdout.write('{0:<8d} {1:<32s} {2:<32s}'.format(r.pk, r.address, str(r.datetime)))
+            self.stdout.write('{0:<8d} {1:<32s} {2:<32s} {3:<32s}'.format(r.pk, r.label, r.address, str(r.datetime)))
