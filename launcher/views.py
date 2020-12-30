@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.template import loader
 from django.utils import timezone
 
 from launcher.models import Request
@@ -36,12 +37,11 @@ def index(request):
 
     return HttpResponse(response)
 
-def hosts(request):
-    response = "Hosts para incluir en el playbook: "
+def listpendingrequests(request):
+    request_list = Request.objects.filter(processed=False)
+    template = loader.get_template('launcher/listpendingrequests.html')
+    context = {
+        'request_list': request_list,
+    }
 
-    for r in Request.objects.filter(processed=False):
-        r.processed=True
-        r.save()
-        response += r.address + ","
-
-    return HttpResponse(response)
+    return HttpResponse(template.render(context, request))

@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('hosts', views.hosts, name='hosts'),
+    path('listpendingrequests', views.listpendingrequests, name='listpendingrequests'),
 ]
