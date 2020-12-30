@@ -1,22 +1,22 @@
 # Сирин / Sirin
 
-Sirin permite ejecutar `playbooks` de `Ansible` cuando los ordenadores lo solicitan. 
+Sirin permite ejecutar `playbooks` de `Ansible` cuando los ordenadores lo solicitan. Imponiendo una ventana definida por `EXCLUSION_TIME` durante la que no se volverá considerar el equipo aunque haga nuevas peticiones.
 
-Está pensado para que cada ordenador haga una petición a Sirin (normalmente en el momento del arranque). Sirin identifica a los equipos por la `IP` desde la que realizan la petición. Si para este equipo no existía una petición previa en la BBDD entonces se guarda la petición.
+Está pensado para que cada ordenador haga una petición a Sirin (normalmente en el momento del arranque). Sirin identifica a los equipos por la `IP` desde la que realizan la petición. Si para este equipo no existía una petición previa en la BBDD entonces se guardará la petición.
 
 Una petición consta de:
 
- * ID
- * Etiqueta indicada en el momento de hacer la petición o 'default'
- * IP del ordenador que la ha realizado
- * DATETIME
- * STATE procesada o pendiente
+ * ID: Valor entero auotincremental.
+ * LABEL: Etiqueta indicada en el momento de hacer la petición o 'default'. Sirve para agrupar las peticiones de un conjunto de equipos que comparten `playbook`.
+ * ADDRESS: Dirección IP del ordenador que ha realizado la petición.
+ * DATETIME: Fecha y hora en la que se ha recibido.
+ * STATE: procesada o pendiente.
 
- Si ya existía una petición para esta dirección `IP` en la BBDD entonces puede ocurrir:
+Si ya existía una petición para esta dirección `IP` en la BBDD entonces puede ocurrir:
 
-    a) Que todavía no haya trancurrido el plazo `EXCLUSION_TIME` desde que se registró la peticón en la BBDD hasta este momento. En tal caso se ignora la petición actual y no se modifica la BBDD.
+a) Que todavía no haya trancurrido el plazo `EXCLUSION_TIME` desde que se registró la peticón en la BBDD hasta este momento. En tal caso se ignora la petición actual y no se modifica la BBDD.
 
-    b) Que desde la petición registrada en la BBDD hasta el momento actual ya se haya superado el plazo `EXCLUSION_TIME`. Entonces se actualiza la petición de la BBDD con el DATETIME actual y STATE pendiente.
+b) Que desde la petición registrada en la BBDD hasta el momento actual se haya superado el plazo `EXCLUSION_TIME`. Entonces se actualiza la petición de la BBDD con el DATETIME actual y STATE pendiente.
 
 Así únicamente se escribe en la BBDD cuando se recibe una petición para un ordenador que no tenía una IP registrada o cuando ha transcurrido `EXCLUSION_TIME` desde la petición registrada.
 
