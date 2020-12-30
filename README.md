@@ -6,7 +6,7 @@ Está pensado para que cada ordenador haga una petición a Sirin (normalmente en
 
 Una petición consta de:
 
- * ID: Valor entero auotincremental.
+ * ID: Valor entero autoincremental.
  * LABEL: Etiqueta indicada en el momento de hacer la petición o 'default'. Sirve para agrupar las peticiones de un conjunto de equipos que comparten `playbook`.
  * ADDRESS: Dirección IP del ordenador que ha realizado la petición.
  * DATETIME: Fecha y hora en la que se ha recibido.
@@ -152,6 +152,18 @@ python manage.py gethosts label1
 ~~~
 
 Este comando marcará las solicitudes como procesadas y no volverán a aparecer en la lista de peticiones pendientes hasta que no sean incluídas de nuevo pasado el periodo de exclusión.
+
+## Vista web de las peticiones pendientes
+
+La URL `http://<IP>:<PORT>/launcher/listpendingrequests` resulta equivalente al comando `python manage.py listpendingrequests`.
+
+En estos momentos y considerando que ya se han marcado como procesadas las peticiones con etiqueta `label1` el resultado en el navegador será:
+
+~~~
+ID 	LABEL 	ADDRESS 	DATETIME
+9 	label2 	192.168.1.1 	1 de Diciembre de 2020 a las 10:42
+10 	label2 	192.168.1.2 	2 de Diciembre de 2020 a las 00:00
+~~~
 
 ## Built With
 
